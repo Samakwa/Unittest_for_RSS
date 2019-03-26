@@ -1,16 +1,14 @@
 """
 Const Names
 """
-# properties of customer
+# User Details
 FIRST_NAME = 0
 LAST_NAME = 1
 EMAIL = 2
 PASSWORD = 3
-MOBILE = 4
-COUNTRY = 5
-ADDRESS_1 = 6
-ADDRESS_2 = 7
-STATUS = 8
+ADDRESS_1 = 4
+ADDRESS_2 = 5
+STATUS = 6
 
 # Login window properties
 LOGIN_MAIL = 0
