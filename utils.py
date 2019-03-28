@@ -1,28 +1,31 @@
 """
 Const Names
 """
-# User Details
-FIRST_NAME = 0
-LAST_NAME = 1
-EMAIL = 2
-PASSWORD = 3
-ADDRESS_1 = 4
-ADDRESS_2 = 5
-STATUS = 6
+# Login Details
+EMAIL = 0
+PASSWORD = 1
+
+# Registration Details
+EMAIL_ADD = 2
+NAME= 3
+ORGANISATION= 4
+PASSWORD_1 = 5
+PASSWORD_2 = 6
+
 
 # Login window properties
 LOGIN_MAIL = 0
 LOGIN_PASS = 1
 
 # index of args in the (test No.) -> args mapper
-ARGS_FOR_TEST_1 = 1
-ARGS_FOR_TEST_2 = 2
-ARGS_FOR_TEST_3 = 3
-ARGS_FOR_TEST_4 = 4
-ARGS_FOR_TEST_5 = 5
-ARGS_FOR_TEST_6 = 6
-ARGS_FOR_TEST_7 = 7
-ARGS_FOR_TEST_8 = 8
+ARGS_FOR_TEST_1 = 0
+ARGS_FOR_TEST_2 = 1
+ARGS_FOR_TEST_3 = 2
+ARGS_FOR_TEST_4 = 3
+ARGS_FOR_TEST_5 = 4
+ARGS_FOR_TEST_6 = 5
+ARGS_FOR_TEST_7 = 6
+ARGS_FOR_TEST_8 = 7
 
 # etc.
 NUMBER_OF_PAGES = 9

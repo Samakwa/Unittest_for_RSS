@@ -1,87 +1,150 @@
-import json
-import InputSearchClass
+import time
+from selenium import webdriver
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ex
+from selenium.webdriver.common.keys import Keys
 import unittest
+from utils import Util
+from unittest import TestLoader, TextTestRunner, TestSuite
+from testClass import *
 
-class TestBasic(unittest.TestCase):
-    ''''@classmethod
-    def setup_class(klass):
-        """This method is run once for each class before any tests are run"""
-    @classmethod
-    def teardown_class(klass):
-        """This method is run once for each class _after_ all tests are run"""
+"""
+Login class.
+include all Tests that related to the login window
+"""
+
+
+class Login(unittest.TestCase):
+    # set the environment for tests
     def setUp(self):
-        """This method is run once before _each_ test method is executed"""
-    def teardown(self):
-        """This method is run once after _each_ test method is executed""" '''
+        self.tester = LoginTest1()
+        self.util = Util()
+        self.util.start('inputs')
 
-    def test_sample_json_file(self):
-        """Test all sample json files in the testdata directory."""
-        json_file = "InputCases"
-        #json_file = "InputCases_reg"
-        #json_file = "InputCases_Sce"
-        json_fp = open(json_file, 'r')
-        json_content = json_fp.read()
-        json_fp.seek(0)
-        json_data = json.load(json_fp)
-        json_fp.close()
-        '''
-            json.load(file_pointer) where file_pointer open json file in read mode. This method creates and returns a dictionary
-            from JSON file
-            json.loads(file_pointer(read)) where file_pointer.read() is a string and rest is same as json.load(). But, we need
-            to use pprint() to print the dictionary
-        '''
-        for elements in json_data:                           # Each elements is a tag under json_data
-            # print "Details of ", elements                  # description of elements
-            # print json_data[elements]                      # Each elements is a list of dictionaries
-            for entry in range(len(json_data[elements])):    # entry stands for a dictionary from a list of dictionaries for elements
-                email_id = json_data[elements][entry]['emailAddress']
-                fname = json_data[elements][entry]['firstName']
-                uid = json_data[elements][entry]['userId']
-                reg = json_data[elements][entry]['region']
-                flname = json_data[elements][entry]['preferredFullName']
-                job_roll = json_data[elements][entry]['jobTitleName']
-                lname = json_data[elements][entry]['lastName']
-                contact = json_data[elements][entry]['phoneNumber']
-                ecode = json_data[elements][entry]['employeeCode']
+    # Test 1
+    def test_check_LoginDetails(self):
+        try:
+            self.assertEqual('Connected Successfully', self.tester.sign_in(
+                self.util.mapper[ARGS_FOR_TEST_1][LOGIN_MAIL], self.util.mapper[ARGS_FOR_TEST_1][LOGIN_PASS]))
+        except Exception as e:
+            print('Test 1 Failed Because ' + str(e))
 
-                # Here elements stands for Employees of an organisation and each entry stands for details of an Employee
+    # Test 2
+    def test_if_doesnt_enter_bad_credentials(self):
+        try:
+            self.assertEqual('Invalid Login Credentials', self.tester.sign_in(
+                self.util.mapper[ARGS_FOR_TEST_2][LOGIN_MAIL], self.util.mapper[ARGS_FOR_TEST_2][LOGIN_PASS]))
+        except Exception as e:
+            print('Test 2 Failed Because ' + str(e))
 
-                for item in json_data[elements][entry]:
-                    if item == 'userId':
-                        uid_value = InputSearchClass.check_userID(uid)
-                        self.assertEqual(uid_value, True, msg="Employee user ID is not valid")
 
-                    if item == 'jobTitleName':
-                        job_roll_value = InputSearchClass.check_jobTitleName(job_roll)
-                        self.assertEqual(job_roll_value, True, msg="Employee Job title is not valid")
+    # Test 3
+    def test_if_doesnt_enter_with_invalid_email(self):
+        expected_res = 'The Email field must contain a valid email address.'
+        try:
+            self.assertEqual(expected_res, self.tester.sign_in(
+                self.util.mapper[ARGS_FOR_TEST_3][LOGIN_MAIL], self.util.mapper[ARGS_FOR_TEST_3][LOGIN_PASS]))
+        except Exception as e:
+            print('Test 3 Failed because ' + str(e))
 
-                    if item == 'firstName':
-                        fname_value = InputSearchClass.check_firstName(fname)
-                        self.assertEqual(fname_value, True, msg="Employee first name is not valid")
+    # Test 4
+    def test_if_doesnt_enter_with_blank(self):
+        try:
+            self.assertFalse(self.tester.sign_in(
+                self.util.mapper[ARGS_FOR_TEST_4][LOGIN_MAIL], self.util.mapper[ARGS_FOR_TEST_4][LOGIN_PASS]))
+        except Exception as e:
+            print('Test 4 Failed because ' + str(e))
 
-                    if item == 'lastName':
-                        lname_value = InputSearchClass.check_lastName(lname)
-                        self.assertEqual(lname_value, True, msg="Employee last name is not valid")
+    def tearDown(self):
+        self.tester.shutdown_driver()
 
-                    if item == 'preferredFullName':
-                        flname_value = InputSearchClass.check_preferredFullName(flname)
-                        self.assertEqual(flname_value, True, msg="Employee Preferred full name is not valid")
 
-                    if item == 'employeeCode':
-                        ecode_value = InputSearchClass.check_employeeCode(ecode)
-                        self.assertEqual(ecode_value, True, msg="Employee code is not valid")
+"""
+Unit2 class.
+include all tests that related to the action of add and delete a user
+"""
 
-                    if item == 'region':
-                        reg_value = InputSearchClass.check_region(reg)
-                        self.assertEqual(reg_value, True, msg="Working region is not valid")
 
-                    if item == 'phoneNumber':
-                        contact_value = InputSearchClass.check_phoneNumber(contact)
-                        self.assertEqual(contact_value, True, msg="Contact number is not valid")
+class Unit2(unittest.TestCase):
 
-                    if item == 'emailAddress':
-                        email_id_value = InputSearchClass.check_emailAddress(email_id)
-                        self.assertEqual(email_id_value, True, msg="Email ID is not valid")
+    def setUp(self):
+        self.tester = TestUnit2()
+        self.util = Util()
+        self.util.start('inputs')
+
+    # Test 5
+    def test_add_user_with_short_password(self):
+        try:
+            user = user(self.util.mapper[ARGS_FOR_TEST_5])
+            array_of_errors = self.tester.add_new_user(user)
+            self.assertIn('The Password field must be at least 6 characters in length.', array_of_errors)
+        except Exception as e:
+            print('Test 5 Failed because ' + str(e))
+
+    # Test 6
+    def test_add_user_with_name_field_missing(self):
+        try:
+            user = user(self.util.mapper[ARGS_FOR_TEST_6])
+            array_of_errors = self.tester.add_and_check_user(user)
+            self.assertIn('The First Name field is required.', array_of_errors)
+        except Exception as e:
+            print('Test 6 Failed because' + str(e))
+
+    # Test 7
+    def test_add_user_correctly(self):
+        try:
+            user = user(self.util.mapper[ARGS_FOR_TEST_7])
+            array_of_notes = self.tester.add_and_check_user(user)
+            self.assertIn('user Added Successfully', array_of_notes)
+        except Exception as e:
+            print('Test 7 Failed because ' + str(e))
+
+    # Test 8
+    def test_if_user_deleted_successfully(self):
+        try:
+            user = user(self.util.mapper[ARGS_FOR_TEST_8])
+            self.tester.entry()
+            self.tester.navigate_to_users_addition()
+            self.assertEqual('Success', self.tester.delete_user(user))
+        except Exception as e:
+            print('Test 7 Failed because ' + str(e))
+
+    def tearDown(self):
+        self.tester.shutdown_driver()
+
+"""
+Unit3 class.
+include all tests that related to the log out action
+"""
+
+
+class Unit3(unittest.TestCase):
+
+    def setUp(self):
+        self.tester = TestUnit2()
+        self.util = Util()
+        self.util.start('inputs')
+
+    # Test 9
+    def test_if_log_out_successfully(self):
+        try:
+            self.tester.entry()
+            self.tester.sign_out()
+        except Exception as e:
+            print('Test 8 Failed because ' + str(e))
+
+    def tearDown(self):
+        self.tester.shutdown_driver()
+
+
 
 if __name__ == '__main__':
-    unittest.main()
+    loader = TestLoader()
+    suite = TestSuite((
+         loader.loadTestsFromTestCase(Login)
+        #loader.loadTestsFromTestCase(Unit2),
+        #loader.loadTestsFromTestCase(Unit3)
+    ))
+    runner = TextTestRunner(verbosity=2)
+    runner.run(suite)
