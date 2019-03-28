@@ -11,7 +11,7 @@ from testClass import *
 
 """
 Login class.
-include all Tests that related to the login window
+include all Tests that arevrelated to the login window
 """
 
 
@@ -40,7 +40,7 @@ class Login(unittest.TestCase):
 
 
     # Test 3
-    def test_if_doesnt_enter_with_invalid_email(self):
+    def test_email_validity(self):
         expected_res = 'The Email field must contain a valid email address.'
         try:
             self.assertEqual(expected_res, self.tester.sign_in(
@@ -76,7 +76,7 @@ class Unit2(unittest.TestCase):
     # Test 5
     def test_add_user_with_short_password(self):
         try:
-            user = user(self.util.mapper[ARGS_FOR_TEST_5])
+            user1 = user(self.util.mapper[ARGS_FOR_TEST_5])
             array_of_errors = self.tester.add_new_user(user)
             self.assertIn('The Password field must be at least 6 characters in length.', array_of_errors)
         except Exception as e:
@@ -85,7 +85,7 @@ class Unit2(unittest.TestCase):
     # Test 6
     def test_add_user_with_name_field_missing(self):
         try:
-            user = user(self.util.mapper[ARGS_FOR_TEST_6])
+            user1 = user(self.util.mapper[ARGS_FOR_TEST_6])
             array_of_errors = self.tester.add_and_check_user(user)
             self.assertIn('The First Name field is required.', array_of_errors)
         except Exception as e:
@@ -94,7 +94,7 @@ class Unit2(unittest.TestCase):
     # Test 7
     def test_add_user_correctly(self):
         try:
-            user = user(self.util.mapper[ARGS_FOR_TEST_7])
+            user1 = user(self.util.mapper[ARGS_FOR_TEST_7])
             array_of_notes = self.tester.add_and_check_user(user)
             self.assertIn('user Added Successfully', array_of_notes)
         except Exception as e:
@@ -115,7 +115,7 @@ class Unit2(unittest.TestCase):
 
 """
 Unit3 class.
-include all tests that related to the log out action
+include Scenario creation 
 """
 
 
@@ -126,8 +126,16 @@ class Unit3(unittest.TestCase):
         self.util = Util()
         self.util.start('inputs')
 
+
     # Test 9
-    def test_if_log_out_successfully(self):
+    def test_scenario_creation(self):
+        try:
+            self.tester.entry()
+            self.tester.sign_out()
+        except Exception as e:
+            print('Test 8 Failed because ' + str(e))
+    # Test 9
+    def test_succesful_log_out(self):
         try:
             self.tester.entry()
             self.tester.sign_out()
