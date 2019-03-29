@@ -7,3 +7,7 @@ add_new_user.
         
         
  <  More descriptions coming....>
+
+To produce a HTML report, run the following script on command prompt:
+
+python scriptFileName.py > TestReport.HTML
