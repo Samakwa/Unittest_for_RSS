@@ -8,6 +8,14 @@ import unittest
 from utils import Util
 from unittest import TestLoader, TextTestRunner, TestSuite
 from testClass import *
+from pyunitreport import HTMLTestRunner
+#import HtmlTestRunner
+
+
+from jinja2 import Template
+from unittest import TestResult, TextTestResult
+
+
 
 """
 Login class.
@@ -15,7 +23,7 @@ include all Tests that arevrelated to the login window
 """
 
 
-class Login(unittest.TestCase):
+class Unit1(unittest.TestCase):
     # set the environment for tests
     def setUp(self):
         self.tester = LoginTest1()
@@ -86,7 +94,7 @@ class Unit2(unittest.TestCase):
     def test_add_user_with_name_field_missing(self):
         try:
             user1 = user(self.util.mapper[ARGS_FOR_TEST_6])
-            array_of_errors = self.tester.add_and_check_user(user)
+            array_of_errors = self.tester.add_new_user(user)
             self.assertIn('The First Name field is required.', array_of_errors)
         except Exception as e:
             print('Test 6 Failed because' + str(e))
@@ -95,7 +103,7 @@ class Unit2(unittest.TestCase):
     def test_add_user_correctly(self):
         try:
             user1 = user(self.util.mapper[ARGS_FOR_TEST_7])
-            array_of_notes = self.tester.add_and_check_user(user)
+            array_of_notes = self.tester.add_new_user(user)
             self.assertIn('user Added Successfully', array_of_notes)
         except Exception as e:
             print('Test 7 Failed because ' + str(e))
@@ -109,6 +117,13 @@ class Unit2(unittest.TestCase):
             self.assertEqual('Success', self.tester.delete_user(user))
         except Exception as e:
             print('Test 7 Failed because ' + str(e))
+
+    def test_succesful_log_out(self):
+        try:
+            self.tester.entry()
+            self.tester.sign_out()
+        except Exception as e:
+            print('Test 8 Failed because ' + str(e))
 
     def tearDown(self):
         self.tester.shutdown_driver()
@@ -134,13 +149,8 @@ class Unit3(unittest.TestCase):
             self.tester.sign_out()
         except Exception as e:
             print('Test 8 Failed because ' + str(e))
-    # Test 9
-    def test_succesful_log_out(self):
-        try:
-            self.tester.entry()
-            self.tester.sign_out()
-        except Exception as e:
-            print('Test 8 Failed because ' + str(e))
+    # Test 10
+
 
     def tearDown(self):
         self.tester.shutdown_driver()
@@ -148,11 +158,16 @@ class Unit3(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    unittest.main(testRunner=HTMLTestRunner(output="C:/Users/sea0153/Desktop/TestResult"))
     loader = TestLoader()
     suite = TestSuite((
-         loader.loadTestsFromTestCase(Login)
-        #loader.loadTestsFromTestCase(Unit2),
-        #loader.loadTestsFromTestCase(Unit3)
+        loader.loadTestsFromTestCase(Unit1),
+        loader.loadTestsFromTestCase(Unit2),
+        loader.loadTestsFromTestCase(Unit3)
     ))
+
     runner = TextTestRunner(verbosity=2)
+
+
     runner.run(suite)
+    #h = HTMLTestRunner(combine_reports=True, report_name="MyReport", add_timestamp=False).run(suite)

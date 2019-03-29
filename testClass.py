@@ -14,6 +14,7 @@ class LoginTest1(object):
     def __init__(self):
         #self.driver = webdriver.Chrome(executable_path="C:/Users/sea0153/Downloads/chromedriver_win32/chromedriver.exe")
         self.driver = webdriver.Chrome(executable_path="C:/Users/sea0153/Downloads/chromedriver_win32/chromedriver.exe")
+
     def sign_in(self, username, password):
         """
         sign_in method.
@@ -39,7 +40,7 @@ class LoginTest1(object):
         self.driver.close()
 
 
-class user(object):
+class user_reg(object):
     """
     user class.
     represent a given user.
@@ -86,14 +87,14 @@ class TestUnit2(object):
         :return:
         """
         flag = False    # not found
-        path1 = "//td[contains(text(), '" + user.first_name + "')]"
-        path2 = "//td[contains(text(), '" + user.last_name + "')]"
-        path3 = "//td/a[contains(text(), '" + user.email + "')]"
+        path1 = "//td[contains(text(), '" + user.name + "')]"
+        path2 = "//td[contains(text(), '" + user.email + "')]"
+
         i = 1           # starting with page 1
         while i < NUMBER_OF_PAGES:
             elements_in_table = self.driver.find_elements_by_xpath("//tbody/tr")
             for element in elements_in_table:
-                if self._is_x_exist(path1, element) and self._is_x_exist(path2, element) and self._is_x_exist(path3, element):
+                if self.checkIfPath_exist(path1, element) and self.checkIfPath_exist(path2, element) :
                     element.find_element_by_xpath("//td/span/a[@title='DELETE']").click()
                     wait = WebDriverWait(self.driver, TIME_WAIT_FOR_PAGE_LOAD)
                     wait.until(expected_conditions.alert_is_present())
@@ -105,17 +106,13 @@ class TestUnit2(object):
                 break
             i += 1
             self.driver.find_element_by_xpath("//li/a[text()='{}']".format(i)).click()
-            WebDriverWait(self.driver, TIME_WAIT_FOR_PAGE_LOAD).until(expected_conditions.title_contains('users Management'))
+            WebDriverWait(self.driver, TIME_WAIT_FOR_PAGE_LOAD).until(expected_conditions.title_contains('UserSettings'))
         return 'Success' if flag else 'Fail'
 
-    def _is_x_exist(self, path, driver=None) -> bool:
+    def checkIfPath_exist(self, path, driver=None) -> bool:
         """
         is_x_path method.
-        check if xpath expression is exist. if it doesnt find it, it raises execpetion
-        and it will return false.
-        :param path:
-        :param driver: point where we search for descendant elements
-        :return: true if xpath exist else false
+        check if xpath expression is exist. if it doesnt find it, it raises error message
         """
         try:
             driver = self.driver if driver is None else driver
@@ -137,19 +134,8 @@ class TestUnit2(object):
         path_name = "//tr/td[text()='"+str(user.name)+"']"
         path_orga = "//tr/td[text()='" + str(user.organisation) + "']"
         path_password_1 = "//tr/td/a[text()='" + str(user.password) + "']"
-        return self._is_x_exist(path_email) and self._is_x_exist(path_name) and self._is_x_exist(path_orga)and self._is_x_exist(path_password_1)
-    """
-    def navigate_to_users_addition(self):
-        
-        navigate_to_users_addition method.
-        navigate to the page of adding user.
-        :return: nothing
-        
-        accounts_section_path = "//div[@class='menu-content']/ul/li/a[contains(text(), ' Accounts')]"
-        self.driver.find_element_by_xpath(accounts_section_path).click()
-        users_section_path = "//div[@class='menu-content']/ul/li/ul/li/a[starts-with(text(), 'users')]"
-        self.driver.find_element_by_xpath(users_section_path).click()
-    """
+        return self.checkIfPath_exist(path_email) and self.checkIfPath_exist(path_name) and self.checkIfPath_exist(path_orga)and self.checkIfPath_exist(path_password_1)
+
     def entry(self):
         """
         entry method.
@@ -178,7 +164,7 @@ class TestUnit2(object):
         self.driver.find_element_by_css_selector('button').click()
         try:
             WebDriverWait(self.driver, TIME_WAIT_FOR_PAGE_LOAD).until(
-                expected_conditions.title_contains("users Management"))
+                expected_conditions.title_contains("UserSetting"))
         except Exception:
             return False, self._check_reason_of_fail()
         return True, []
@@ -213,7 +199,7 @@ class TestUnit2(object):
         list_of_forms[PASSWORD_2].send_keys(user.ConfirmPassword)
 
 
-    def sign_out(self):
+    def scenariot(self):
         """
         sign_out method.
         sign out from the menu, and if from some reason it doesnt log out -> raises exception
@@ -221,6 +207,18 @@ class TestUnit2(object):
         """
         self.driver.find_element_by_xpath("//a[contains(text(), 'Log Out')]").click()
         WebDriverWait(self.driver, TIME_WAIT_FOR_PAGE_LOAD).until(expected_conditions.title_contains('Signin'))
+
+        def entry(self):
+            """
+            entry method.
+            enter to the main menu with the correct username and password.
+            :return:
+            """
+            self.driver.get("http://localhost:8082/#/ScenarioList")
+            self.driver.find_element_by_name('email').send_keys('15@15.com')
+            self.driver.find_element_by_name('password').send_keys('password1')
+            self.driver.find_element_by_css_selector('Submit').click()
+            WebDriverWait(self.driver, TIME_WAIT_FOR_PAGE_LOAD).until(expected_conditions.title_contains('scenario'))
 
     def shutdown_driver(self):
         """
