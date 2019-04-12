@@ -19,14 +19,14 @@ from unittest import TestResult, TextTestResult
 
 """
 Login class.
-include all Tests that arevrelated to the login window
+include all Tests that are related to the login window
 """
 
 
 class Unit1(unittest.TestCase):
     # set the environment for tests
     def setUp(self):
-        self.tester = LoginTest1()
+        self.tester = TestUnit1()
         self.util = Util()
         self.util.start('inputs')
 
@@ -39,7 +39,7 @@ class Unit1(unittest.TestCase):
             print('Test 1 Failed Because ' + str(e))
 
     # Test 2
-    def test_if_doesnt_enter_bad_credentials(self):
+    def test_wrong_credentials(self):
         try:
             self.assertEqual('Invalid Login Credentials', self.tester.sign_in(
                 self.util.mapper[ARGS_FOR_TEST_2][LOGIN_MAIL], self.util.mapper[ARGS_FOR_TEST_2][LOGIN_PASS]))
@@ -57,7 +57,7 @@ class Unit1(unittest.TestCase):
             print('Test 3 Failed because ' + str(e))
 
     # Test 4
-    def test_if_doesnt_enter_with_blank(self):
+    def test_blank_details(self):
         try:
             self.assertFalse(self.tester.sign_in(
                 self.util.mapper[ARGS_FOR_TEST_4][LOGIN_MAIL], self.util.mapper[ARGS_FOR_TEST_4][LOGIN_PASS]))
@@ -84,8 +84,8 @@ class Unit2(unittest.TestCase):
     # Test 5
     def test_add_user_with_short_password(self):
         try:
-            user1 = user(self.util.mapper[ARGS_FOR_TEST_5])
-            array_of_errors = self.tester.add_new_user(user)
+            user1 = (self.util.mapper[ARGS_FOR_TEST_5])
+            array_of_errors = self.tester.user(user1)
             self.assertIn('The Password field must be at least 6 characters in length.', array_of_errors)
         except Exception as e:
             print('Test 5 Failed because ' + str(e))
@@ -93,8 +93,8 @@ class Unit2(unittest.TestCase):
     # Test 6
     def test_add_user_with_name_field_missing(self):
         try:
-            user1 = user(self.util.mapper[ARGS_FOR_TEST_6])
-            array_of_errors = self.tester.add_new_user(user)
+            user1 = (self.util.mapper[ARGS_FOR_TEST_6])
+            array_of_errors = self.tester.add_new_user(user1)
             self.assertIn('The First Name field is required.', array_of_errors)
         except Exception as e:
             print('Test 6 Failed because' + str(e))
@@ -102,8 +102,8 @@ class Unit2(unittest.TestCase):
     # Test 7
     def test_add_user_correctly(self):
         try:
-            user1 = user(self.util.mapper[ARGS_FOR_TEST_7])
-            array_of_notes = self.tester.add_new_user(user)
+            user1 = (self.util.mapper[ARGS_FOR_TEST_7])
+            array_of_notes = self.tester.add_new_user(user1)
             self.assertIn('user Added Successfully', array_of_notes)
         except Exception as e:
             print('Test 7 Failed because ' + str(e))
@@ -111,9 +111,9 @@ class Unit2(unittest.TestCase):
     # Test 8
     def test_if_user_deleted_successfully(self):
         try:
-            user = user(self.util.mapper[ARGS_FOR_TEST_8])
+            user = (self.util.mapper[ARGS_FOR_TEST_8])
             self.tester.entry()
-            self.tester.navigate_to_users_addition()
+            self.tester.activeUsers.update()
             self.assertEqual('Success', self.tester.delete_user(user))
         except Exception as e:
             print('Test 7 Failed because ' + str(e))
@@ -137,7 +137,7 @@ include Scenario creation
 class Unit3(unittest.TestCase):
 
     def setUp(self):
-        self.tester = TestUnit2()
+        self.tester = TestUnit3()
         self.util = Util()
         self.util.start('inputs')
 
@@ -149,6 +149,7 @@ class Unit3(unittest.TestCase):
             self.tester.sign_out()
         except Exception as e:
             print('Test 8 Failed because ' + str(e))
+
     # Test 10
 
 
@@ -169,5 +170,5 @@ if __name__ == '__main__':
     runner = TextTestRunner(verbosity=2)
 
 
-    runner.run(suite)
+    #runner.run(suite)
     #h = HTMLTestRunner(combine_reports=True, report_name="MyReport", add_timestamp=False).run(suite)

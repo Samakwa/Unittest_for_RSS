@@ -35,43 +35,36 @@ class TestBasic(unittest.TestCase):
             # print json_data[elements]                      # Each elements is a list of dictionaries
             for entry in range(len(json_data[elements])):    # entry stands for a dictionary from a list of dictionaries for elements
                 email_id = json_data[elements][entry]['emailAddress']
-                fname = json_data[elements][entry]['firstName']
+                name = json_data[elements][entry]['firstName']
                 uid = json_data[elements][entry]['userId']
-                reg = json_data[elements][entry]['region']
+                reg = json_data[elements][entry]['State']
                 flname = json_data[elements][entry]['preferredFullName']
-                job_roll = json_data[elements][entry]['jobTitleName']
-                lname = json_data[elements][entry]['lastName']
+                county = json_data[elements][entry]['County']
                 contact = json_data[elements][entry]['phoneNumber']
-                ecode = json_data[elements][entry]['employeeCode']
 
                 # Here elements stands for Employees of an organisation and each entry stands for details of an Employee
 
                 for item in json_data[elements][entry]:
                     if item == 'userId':
                         uid_value = InputSearchClass.check_userID(uid)
-                        self.assertEqual(uid_value, True, msg="Employee user ID is not valid")
+                        self.assertEqual(uid_value, True, msg="user ID is not valid")
 
-                    if item == 'jobTitleName':
-                        job_roll_value = InputSearchClass.check_jobTitleName(job_roll)
-                        self.assertEqual(job_roll_value, True, msg="Employee Job title is not valid")
 
                     if item == 'firstName':
-                        fname_value = InputSearchClass.check_firstName(fname)
-                        self.assertEqual(fname_value, True, msg="Employee first name is not valid")
+                        fname_value = InputSearchClass.check_firstName(name)
+                        self.assertEqual(fname_value, True, msg="Name is not valid")
 
-                    if item == 'lastName':
-                        lname_value = InputSearchClass.check_lastName(lname)
-                        self.assertEqual(lname_value, True, msg="Employee last name is not valid")
+                    if item == 'Organisation':
+                        lname_value = InputSearchClass.check_lastName(county)
+                        self.assertEqual(lname_value, True, msg="Organisation is not valid")
 
-                    if item == 'preferredFullName':
+                    if item == 'FullName':
                         flname_value = InputSearchClass.check_preferredFullName(flname)
                         self.assertEqual(flname_value, True, msg="Employee Preferred full name is not valid")
 
-                    if item == 'employeeCode':
-                        ecode_value = InputSearchClass.check_employeeCode(ecode)
-                        self.assertEqual(ecode_value, True, msg="Employee code is not valid")
 
-                    if item == 'region':
+
+                    if item == 'State':
                         reg_value = InputSearchClass.check_region(reg)
                         self.assertEqual(reg_value, True, msg="Working region is not valid")
 

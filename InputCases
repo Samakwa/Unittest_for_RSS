@@ -2,13 +2,40 @@
 "Users" : [
 {
 "emailAddress":"15@15.com",
-"password":"password1"
-
+  "Name":"Sam1",
+"password1":"password1",
+  "password2":"password2",
+  "Organisation":"UNT",
+  "State":"NY",
+  "County":"Dallas"
 },
 {
-"emailAddress":"15@15.com",
-"password":"password1"
-
+"emailAddress":"16@16.com",
+  "Name":"Sam2",
+"password1":"password1",
+  "password2":"password2",
+  "Organisation":"ABC",
+  "State":"MD",
+  "County":"Denton"
+},
+{
+"emailAddress":"18@18.com",
+  "Name":"Sam5",
+"password1":"password1",
+  "password2":"password2",
+  "Organisation":"UNT",
+  "State":"TX",
+  "County":"lowell"
+  },
+{
+"emailAddress":"19@19.com",
+  "Name":"Sam2",
+"password1":"password1",
+  "password2":"password2",
+  "Organisation":"UTA",
+  "State":"CA",
+  "County":"Denton"
 }
+
 ]
 }

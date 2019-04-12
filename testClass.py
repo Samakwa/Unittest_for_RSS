@@ -6,7 +6,7 @@ import time
 from utils import *
 
 
-class LoginTest1(object):
+class TestUnit1(object):
     """
     LoginTest1 class.
     Tests codes related to sign section
@@ -21,8 +21,8 @@ class LoginTest1(object):
 
         """
         self.driver.get("http://localhost:8082/#/")
-        self.driver.find_element_by_name('loginEmail').send_keys(username)
-        self.driver.find_element_by_name('loginPassword').send_keys(password)
+        self.driver.find_element_by_name('email').send_keys(username)
+        self.driver.find_element_by_name('password').send_keys(password)
         self.driver.find_element_by_css_selector('Submit').click()
         try:
             WebDriverWait(self.driver, TIME_WAIT_FOR_PAGE_LOAD).until(expected_conditions.title_contains('ScenarioList'))
@@ -40,7 +40,7 @@ class LoginTest1(object):
         self.driver.close()
 
 
-class user_reg(object):
+class TestUnit2(object):
     """
     user class.
     represent a given user.
@@ -56,7 +56,7 @@ class user_reg(object):
         self.password_2 = args_for_user[PASSWORD_2]
 
 
-class TestUnit2(object):
+class TestUnit3(object):
 
     def __init__(self):
         self.driver = webdriver.Chrome(executable_path="C:/Users/sea0153/Downloads/chromedriver_win32/chromedriver.exe")
@@ -69,7 +69,7 @@ class TestUnit2(object):
         :return: list of notes/warning
         """
         self.entry()
-        self.navigate_to_users_addition()
+        self.activeUsers.update()
         res, notes = self.add_user(user)
         if not res:
             return notes
@@ -123,13 +123,7 @@ class TestUnit2(object):
         return True
 
     def check_if_user_added(self, user) -> bool:
-        """
-        check_if_user_added method.
-        check if the user that we just added appears in the
-        table.
-        :param user:
-        :return: true if appears else false
-        """
+
         path_email = "//tr/td[text()='"+str(user.email)+"']"
         path_name = "//tr/td[text()='"+str(user.name)+"']"
         path_orga = "//tr/td[text()='" + str(user.organisation) + "']"
@@ -183,13 +177,7 @@ class TestUnit2(object):
         return str_alerts
 
     def _fill_fields(self, elements, user):
-        """
-        _fill_fields method.
-        fill the form of Add user with his propperties
-        :param elements: list of forms
-        :param user: user
-        :return: void
-        """
+
         list_of_forms = elements.find_elements_by_xpath("C:/Users/sea0153/WebstormProjects/Sampson_backend/src/main")
 
         list_of_forms[EMAIL_ADD].send_keys(user.userEmail)
@@ -199,26 +187,16 @@ class TestUnit2(object):
         list_of_forms[PASSWORD_2].send_keys(user.ConfirmPassword)
 
 
-    def scenariot(self):
-        """
-        sign_out method.
-        sign out from the menu, and if from some reason it doesnt log out -> raises exception
-        :return: void
-        """
-        self.driver.find_element_by_xpath("//a[contains(text(), 'Log Out')]").click()
-        WebDriverWait(self.driver, TIME_WAIT_FOR_PAGE_LOAD).until(expected_conditions.title_contains('Signin'))
 
-        def entry(self):
-            """
-            entry method.
-            enter to the main menu with the correct username and password.
-            :return:
-            """
-            self.driver.get("http://localhost:8082/#/ScenarioList")
-            self.driver.find_element_by_name('email').send_keys('15@15.com')
-            self.driver.find_element_by_name('password').send_keys('password1')
-            self.driver.find_element_by_css_selector('Submit').click()
-            WebDriverWait(self.driver, TIME_WAIT_FOR_PAGE_LOAD).until(expected_conditions.title_contains('scenario'))
+    def scenario(self):
+        """
+        Check if a new scenario is returned
+        """
+        self.driver.get("http://localhost:8082/#/ScenarioList")
+        self.driver.find_element_by_name('email').send_keys('15@15.com')
+        self.driver.find_element_by_name('password').send_keys('password1')
+        self.driver.find_element_by_xpath("//a[contains(text(), 'LOAD SCENARIO')]").click()
+        WebDriverWait(self.driver, TIME_WAIT_FOR_PAGE_LOAD).until(expected_conditions.title_contains('Scenario'))
 
     def shutdown_driver(self):
         """
