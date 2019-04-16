@@ -9,7 +9,7 @@ from utils import *
 class TestUnit1(object):
     """
     LoginTest1 class.
-    Tests codes related to sign section
+    Tests codes related to sign_in section
     """
     def __init__(self):
         #self.driver = webdriver.Chrome(executable_path="C:/Users/sea0153/Downloads/chromedriver_win32/chromedriver.exe")
@@ -49,7 +49,7 @@ class TestUnit2(object):
         self.email = args_for_user[EMAIL]
         self.password = args_for_user[PASSWORD]
 
-        self.email_add = args_for_user[EMAIL_ADD]
+
         self.name = args_for_user[NAME]
         self.organisation = args_for_user[ORGANISATION]
         self.password_1 = args_for_user[PASSWORD_1]

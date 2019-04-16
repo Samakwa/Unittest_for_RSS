@@ -60,7 +60,7 @@ class Unit1(unittest.TestCase):
     def test_blank_details(self):
         try:
             self.assertFalse(self.tester.sign_in(
-                self.util.mapper[ARGS_FOR_TEST_4][LOGIN_MAIL], self.util.mapper[ARGS_FOR_TEST_4][LOGIN_PASS]))
+                self.util.mapper[ARGS_FOR_TEST_4][EMAIL], self.util.mapper[ARGS_FOR_TEST_4][PASSWORD_1]))
         except Exception as e:
             print('Test 4 Failed because ' + str(e))
 
