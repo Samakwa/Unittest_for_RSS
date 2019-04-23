@@ -64,6 +64,7 @@ class Unit1(unittest.TestCase):
         except Exception as e:
             print('Test 4 Failed because ' + str(e))
 
+        #self.driver.save_screenshot('screenshot-deskto-chrome.png')
     def tearDown(self):
         self.tester.shutdown_driver()
 
@@ -121,7 +122,7 @@ class Unit2(unittest.TestCase):
     def test_succesful_log_out(self):
         try:
             self.tester.entry()
-            self.tester.sign_out()
+            self.sign_out()
         except Exception as e:
             print('Test 8 Failed because ' + str(e))
 

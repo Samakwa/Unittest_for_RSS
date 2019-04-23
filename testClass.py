@@ -41,20 +41,36 @@ class TestUnit1(object):
 
 
 class TestUnit2(object):
-    """
-    user class.
-    represent a given user.
-    """
-    def __init__(self, args_for_user):
+
+    #user class represents a given user.
+    def __init__(self):
+        #self.driver = webdriver.Chrome(executable_path="C:/Users/sea0153/Downloads/chromedriver_win32/chromedriver.exe")
+        self.driver = webdriver.Chrome(executable_path="C:/Users/sea0153/Downloads/chromedriver_win32/chromedriver.exe")
+
+    def test_registration(self, args_for_user):
         self.email = args_for_user[EMAIL]
         self.password = args_for_user[PASSWORD]
-
-
         self.name = args_for_user[NAME]
         self.organisation = args_for_user[ORGANISATION]
         self.password_1 = args_for_user[PASSWORD_1]
         self.password_2 = args_for_user[PASSWORD_2]
 
+    def registration2(self, email, password_1, name,organization, password_2):
+        self.driver.get("http://localhost:8082/#/")
+        self.driver.find_element_by_name('email').send_keys(email)
+        self.driver.find_element_by_name('Name').send_keys(name)
+        self.driver.find_element_by_name('Organization').send_keys(organization)
+        self.driver.find_element_by_name('Password').send_keys(password_1)
+        self.driver.find_element_by_name('Confirm Password').send_keys(password_2)
+        self.driver.find_element_by_css_selector('REGISTER').click()
+        try:
+            WebDriverWait(self.driver, TIME_WAIT_FOR_PAGE_LOAD).until(expected_conditions.title_contains('Create User Account'))
+        except Exception:
+            err_elm = self.driver.find_element_by_xpath("//form/div[contains(@class, 'registerform')]").text
+            return err_elm
+        return 'User is successfully registered'
+    def tearDown(self):
+        self.driver.close()
 
 class TestUnit3(object):
 
@@ -69,7 +85,7 @@ class TestUnit3(object):
         :return: list of notes/warning
         """
         self.entry()
-        self.activeUsers.update()
+        self.user.update()
         res, notes = self.add_user(user)
         if not res:
             return notes
