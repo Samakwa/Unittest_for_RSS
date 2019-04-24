@@ -69,19 +69,19 @@ class Unit1(unittest.TestCase):
         self.tester.shutdown_driver()
 
 
-"""
-Unit2 class.
-include all tests that related to the action of add and delete a user
-"""
+    """
+    Unit2 class.
+    include all tests that related to the action of add and delete a user
+    """
 
-
-class Unit2(unittest.TestCase):
+    """
+    class Unit2(unittest.TestCase):
 
     def setUp(self):
         self.tester = TestUnit2()
         self.util = Util()
         self.util.start('inputs')
-
+    """
     # Test 5
     def test_add_user_with_short_password(self):
         try:

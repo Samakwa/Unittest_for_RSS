@@ -40,12 +40,10 @@ class TestUnit1(object):
         self.driver.close()
 
 
-class TestUnit2(object):
+    #class TestUnit2(object):
 
     #user class represents a given user.
-    def __init__(self):
-        #self.driver = webdriver.Chrome(executable_path="C:/Users/sea0153/Downloads/chromedriver_win32/chromedriver.exe")
-        self.driver = webdriver.Chrome(executable_path="C:/Users/sea0153/Downloads/chromedriver_win32/chromedriver.exe")
+
 
     def test_registration(self, args_for_user):
         self.email = args_for_user[EMAIL]
@@ -72,10 +70,8 @@ class TestUnit2(object):
     def tearDown(self):
         self.driver.close()
 
-class TestUnit3(object):
+    #class TestUnit3(object):
 
-    def __init__(self):
-        self.driver = webdriver.Chrome(executable_path="C:/Users/sea0153/Downloads/chromedriver_win32/chromedriver.exe")
 
     def add_new_user(self, user) -> list:
         """
