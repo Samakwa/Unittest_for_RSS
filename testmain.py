@@ -1,4 +1,5 @@
 import time
+import os
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -10,6 +11,7 @@ from unittest import TestLoader, TextTestRunner, TestSuite
 from testClass import *
 from pyunitreport import HTMLTestRunner
 #import HtmlTestRunner
+import HTMLTestRunner
 
 
 from jinja2 import Template
@@ -21,7 +23,7 @@ from unittest import TestResult, TextTestResult
 Login class.
 include all Tests that are related to the login window
 """
-
+loc1 = os.getcwd()
 
 class Unit1(unittest.TestCase):
     # set the environment for tests
@@ -29,6 +31,7 @@ class Unit1(unittest.TestCase):
         self.tester = TestUnit1()
         self.util = Util()
         self.util.start('inputs')
+
 
     # Test 1
     def test_check_LoginDetails(self):
@@ -129,19 +132,19 @@ class Unit1(unittest.TestCase):
     def tearDown(self):
         self.tester.shutdown_driver()
 
-"""
-Unit3 class.
-include Scenario creation 
-"""
+    """
+    Unit3 class.
+    include Scenario creation 
+    """
 
 
-class Unit3(unittest.TestCase):
-
+    #class Unit3(unittest.TestCase):
+    """
     def setUp(self):
         self.tester = TestUnit3()
         self.util = Util()
         self.util.start('inputs')
-
+    """
 
     # Test 9
     def test_scenario_creation(self):
@@ -160,16 +163,24 @@ class Unit3(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main(testRunner=HTMLTestRunner(output="C:/Users/sea0153/Desktop/TestResult"))
+    unittest.main()
     loader = TestLoader()
-    suite = TestSuite((
+    suite = TestSuite([
         loader.loadTestsFromTestCase(Unit1),
-        loader.loadTestsFromTestCase(Unit2),
-        loader.loadTestsFromTestCase(Unit3)
-    ))
+        #loader.loadTestsFromTestCase(Unit2),
+        #loader.loadTestsFromTestCase(Unit3)
+    ])
+    outfile = open(loc1 + "\Rep_TestResult.html", "w")
 
+    runner1 = HTMLTestRunner.HTMLTestRunner(
+        stream=outfile,
+        title='Test Report',
+        description='Web Re-Plan Tests (CSCE 6420 project)'
+    )
+
+    #runner1.run(smoke_test)
     runner = TextTestRunner(verbosity=2)
 
 
-    #runner.run(suite)
+    runner.run(suite)
     #h = HTMLTestRunner(combine_reports=True, report_name="MyReport", add_timestamp=False).run(suite)
