@@ -11,7 +11,7 @@ class TestUnit1(object):
     LoginTest1 class.
     Tests codes related to sign_in section
     """
-    def __init__(self):
+    def __init__(self, username):
         #self.driver = webdriver.Chrome(executable_path="C:/Users/sea0153/Downloads/chromedriver_win32/chromedriver.exe")
         self.driver = webdriver.Chrome(executable_path="C:/Users/sea0153/Downloads/chromedriver_win32/chromedriver.exe")
 
@@ -36,8 +36,8 @@ class TestUnit1(object):
 
         assert heading == "RE-PLAN"
 
-    def shutdown_driver(self):
-        self.driver.close()
+    #def shutdown_driver(self):
+     #   self.driver.close()
 
 
     #class TestUnit2(object):
@@ -74,14 +74,9 @@ class TestUnit1(object):
 
 
     def add_new_user(self, user) -> list:
-        """
-        add_and_check_user method.
-        include the whole process of adding a user and cheking the landing page
-        :param user:
-        :return: list of notes/warning
-        """
+
         self.entry()
-        self.user.update()
+        self.add_new_user(user)
         res, notes = self.add_user(user)
         if not res:
             return notes
@@ -90,8 +85,6 @@ class TestUnit1(object):
             notes.append('User not added')
             return notes
         notes.append('user Added Successfully')
-        return notes
-
     def delete_user(self, user) -> str:
         """
         delete user. Using given user details, search and delete user
@@ -209,6 +202,9 @@ class TestUnit1(object):
         self.driver.find_element_by_name('password').send_keys('password1')
         self.driver.find_element_by_xpath("//a[contains(text(), 'LOAD SCENARIO')]").click()
         WebDriverWait(self.driver, TIME_WAIT_FOR_PAGE_LOAD).until(expected_conditions.title_contains('Scenario'))
+
+    def tearDown(self):
+        self.driver.close()
 
     def shutdown_driver(self):
         """
